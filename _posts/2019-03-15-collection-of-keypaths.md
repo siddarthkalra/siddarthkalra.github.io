@@ -2,7 +2,7 @@
 layout: post
 title:  "A Collection of KeyPaths, Same Root  Type but Different Values"
 date:   2019-03-15 10:18:00
-categories: Swift KeyPaths
+<!-- categories: Swift KeyPaths -->
 ---
 
 I love Swift [`KeyPaths`](https://developer.apple.com/documentation/swift/keypath) as they allow us to work in type-safe environment. But I ran into a problem the other day when using them for a feature I was implementing.
