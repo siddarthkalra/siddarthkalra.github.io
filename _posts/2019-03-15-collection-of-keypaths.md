@@ -17,7 +17,7 @@ class Dog {
 let keyPaths = [\Dog.name, \Dog.age]
 {% endhighlight %}
 
-Xcode reports that `keyPaths` has the type `PartialKeyPath<Dog>`. This actually makes sense because `name` is a `String` while `age` is an `Int`. So, Swift uses a [`PartialKeyPath`](https://developer.apple.com/documentation/swift/partialkeypath), which type-erases the values for you.
+Xcode reports that `keyPaths` has the type `PartialKeyPath<Dog>`. This actually makes sense because `name` is a `String` while `age` is an `Int`. So, Swift uses a [`PartialKeyPath`](https://developer.apple.com/documentation/swift/partialkeypath), which type-erases the `Values` for you.
 
 This was great but didn't work for my particular problem. I wanted to use `KeyPaths` to represent property names in a type-safe manner. Given a `KeyPath`, print out the property name of the value, like so:
 
@@ -31,7 +31,7 @@ printPropertyName(keyPath: \Dog.name) // prints name
 printPropertyName(keyPath: \Dog.age) // prints age
 {% endhighlight %}
 
-`NSExpression` is a great Apple API that gives us the ability to retrieve the property name a `KeyPath`, if the property is annotated with `@objc`.
+`NSExpression` is a great Apple API that gives us the ability to retrieve the property name of a `KeyPath`, if the property is annotated with `@objc`.
 
 Next, I wanted the ability to pass in a collection of `KeyPaths` like so:
 
