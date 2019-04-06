@@ -4,7 +4,7 @@ meta_description: "Blogging about iOS development"
 
 markdown: kramdown
 remote_theme: rosario/kasper
-highlighter: pygments
+# highlighter: pygments
 logo: false
 paginate: 15
 baseurl: /
