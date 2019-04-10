@@ -1,6 +1,13 @@
 name: An Unheralded Perspective
-description: Blogging about iOS development
 meta_description: "Blogging about iOS development"
+
+#SEO
+title: An Unheralded Perspective
+description: Blogging about iOS development
+author: Siddarth Kalra
+twitter:
+  username: siddarthkalra
+  card: summary
 
 markdown: kramdown
 remote_theme: rosario/kasper
