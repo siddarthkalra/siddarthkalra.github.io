@@ -10,7 +10,7 @@ On iOS, if an `NSRangeException` (index out of bounds) occurs, your app will cra
 
 On MacOS, exceptions that go unhandled will rise to the level of the uncaught exception handler. This is the point where one can perform extra logic before the program exits. The default handler logs the exception to the console before exiting.
 
-However, the key point is that exceptions on the main thread don't rise to the level of the uncaught exception handler as the global application object catches them preemptively. This is why certain exceptions don't lead to a crash on MacOS. Apple details this behaviour here: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Exceptions/Concepts/UncaughtExceptions.html.
+However, the key point is that exceptions on the main thread don't rise to the level of the uncaught exception handler as the global application object catches them preemptively. This is why certain exceptions don't lead to a crash on MacOS. Apple details this behaviour [here](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Exceptions/Concepts/UncaughtExceptions.html).
 
 If your app is using a crash reporting tool like [Sentry](https://Sentry.io) or [crashlytics](https://firebase.google.com/docs/crashlytics/), you don't want to silently log exceptions to the console. You want to know about them. So, how do we handle these exceptions?
 
