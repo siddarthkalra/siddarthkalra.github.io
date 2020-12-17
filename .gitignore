@@ -1,5 +1,6 @@
-_site
 .DS_Store
-*.swp
-.sass-cache
-
+/build
+/.build
+/.swiftpm
+/*.xcodeproj
+.publish
