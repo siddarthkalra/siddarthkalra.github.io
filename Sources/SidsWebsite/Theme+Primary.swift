@@ -102,7 +102,7 @@ private struct PrimaryHTMLFactory<Site: Website>: HTMLFactory {
                         .class("all-tags"),
                         .forEach(page.tags.sorted()) { tag in
                             .li(
-                                .class("tag"),
+                                .class(TagCSSClassGenerator.cssClassForTag(tag, context: context)),
                                 .a(
                                     .href(context.site.path(for: tag)),
                                     .text(tag.string)
@@ -126,7 +126,7 @@ private struct PrimaryHTMLFactory<Site: Website>: HTMLFactory {
                 .wrapper(
                     .h1(
                         "Tagged with ",
-                        .span(.class("tag"), .text(page.tag.string))
+                        .span(.class(TagCSSClassGenerator.cssClassForTag(page.tag, context: context)), .text(page.tag.string))
                     ),
                     .a(
                         .class("browse-all"),
@@ -256,7 +256,8 @@ private struct TagCSSClassGenerator {
         var map: [Tag: String] = [:]
         for (i, tag) in sortedTags.enumerated() {
             let letter = letters[i]
-            map[tag] = "tag-\(letter)"
+            let baseTagCSSClass: String = "tag"
+            map[tag] = "\(baseTagCSSClass) tag-\(letter)"
         }
 
         return map
