@@ -24,4 +24,5 @@ struct SidsWebsite: Website {
 }
 
 try SidsWebsite().publish(withTheme: .primary,
+                          deployedUsing: .gitHub("siddarthkalra/siddarthkalra.github.io", useSSH: true),
                           plugins: [.splash(withClassPrefix: "splash-")])
