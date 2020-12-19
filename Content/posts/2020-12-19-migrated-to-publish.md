@@ -127,8 +127,9 @@ GitHub pages expects the content of your website to be situated in the root dire
 
 Getting the initial version of my website up and running has been so much fun! However, there's at least a couple more things I still want to do to really streamline my process:
 
-- for every new post, add the ability to automatically post a tweet and cross-publish the on Medium
+- for every new post, add the ability to automatically cross-publish the post on Medium and submit a tweet
 - add the ability to work on drafts without publishing them to the website before they're ready
 - a custom 404 page
+- add support for multiple CSS files that get minified into one CSS file
 
-Once I have working solutions for the above, I hope to share my findings with you all. Thank you to all that stuck around till the end. That means a lot. All feedback is welcome, so please don't hesitate to reach out to me on [Twitter](https://twitter.com/siddarthkalra).
+As I make progress on these enhancements, I hope to share updates. Thank you to all that stuck around till the end. All feedback is welcome, so please don't hesitate to reach out to me on [Twitter](https://twitter.com/siddarthkalra).
