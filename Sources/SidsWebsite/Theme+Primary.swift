@@ -15,7 +15,9 @@ extension Theme where Site == SidsWebsite {
     }
 }
 
-private struct PrimaryHTMLFactory<Site: Website>: HTMLFactory {
+private struct PrimaryHTMLFactory: HTMLFactory {
+    typealias Site = SidsWebsite
+
     func makeIndexHTML(for index: Index,
                        context: PublishingContext<Site>) throws -> HTML {
         HTML(
