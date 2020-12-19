@@ -97,15 +97,52 @@ POTENTIAL FOR GIF/MEME HERE
 
 I was stumped. I had no idea how Xcode got into this state. So, I went for a swim in the world of SPM by reading Apple's docs and even Sundell's article on the subject. But I couldn't solve the problem. Ultimately, I just went snooping around Xcode and used some common sense. Somehow, I knew that I needed to reset my build and throw out any existing build artifacts and I found exactly what I was looking for:
 
-`File ˃ Swift Packages ˃ Reset Package Caches`
+```
+File ˃ Swift Packages ˃ Reset Package Caches
+```
 
 This forces Xcode to regenerate your entire Package dependency chain. Once I chose this option all my problems were solved and I was back on track.
 
-## Sections vs. Pages
+## Section vs. Page
+
+`Section` essentially models a directory with a rigid hierarchy. `Item` models each page within this directory and a given `Section` can contain many items.
+
+`Page`, on the other hand, models a standalone HTML page and doesn't hold any pre-conceived notions around directory hierarchy.
+
+Use `Section` when you want to group a set of pages together. If something is standalone then use `Page` instead.
 
 ## WebsiteItemMetadata
 
-At first, I didn't quite understand the purpose of the `WebsiteItemMetadata` protocol.
+It took me a while to understand the purpose of the `WebsiteItemMetadata` protocol so I want to take a moment and explain it in-case others are struggling as well.
+
+It basically gives you the ability to include custom data for each `Item` defined by your website. Given that we are using Swift here, Publish takes advantage of the language's type system and allows us to work with a strongly typed object instead of using something like a dictionary, which cannot provide the same guarantees at compile-time.
+
+Let's go through an example to make sure we're on the same page. Say I want to add a timestamp that indicates the last time each post on my website was edited. Posts on my website are embedded within a `Section` called `posts` and thus each post is a `Item`.
+
+All I have to do now is to add the following to my metadata struct:
+
+```swift
+struct ItemMetadata: WebsiteItemMetadata {
+    var lastEdited: Date
+}
+```
+
+Then, I can go through each one of my posts written in markdown and add this information at the top within the --- lines.
+
+```
+---
+lastEdited: 2020-10-21 16:49
+---
+```
+
+Lastly, I can simply access this new property via `item.lastEdited`. If somehow you don't update each post, Publish will throw an error when you try to generate your website:
+
+```
+Fatal error: Error raised at top level: Publish encountered an error:
+[step] Add Markdown files from 'Content' folder
+[path] posts/fancy-new-post.md
+[info] Missing metadata value for key 'lastEdited'
+```
 
 ## Diffing the output HTML
 
