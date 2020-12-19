@@ -9,7 +9,7 @@ import Publish
 import Plot
 import Foundation
 
-extension Theme {
+extension Theme where Site == SidsWebsite {
     static var primary: Self {
         Theme(htmlFactory: PrimaryHTMLFactory(), resourcePaths: ["Resources/PrimaryTheme/styles.css"])
     }
