@@ -145,6 +145,10 @@ a {
     background-color: #c53e33;
 }
 
+.tag-e {
+    background-color: #EC7018;
+}
+
 .tag-list li,
 .tag {
     display: inline-block;
