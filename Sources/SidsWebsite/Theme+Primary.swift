@@ -247,7 +247,7 @@ private struct TagCSSClassGenerator {
 
     private static func makeTagsToCSSMap<T: Website>(context: PublishingContext<T>) -> TagToCSSClassMap {
         let sortedTags = context.allTags.sorted()
-        let letters: [String] = ["a", "b", "c", "d", "e", "f"]
+        let letters: [String] = ["a", "b", "c", "d", "e", "f", "e"]
 
         guard sortedTags.count == letters.count else {
             fatalError("Too many tags (\(sortedTags.count)), vs. CSS classes (\(letters.count)). Add more CSS classes")
