@@ -6,6 +6,8 @@ description: I recently came across a peculiar distinction between how exception
 tags: article, swift, mac os, exceptions
 ---
 
+# Uncaught exceptions on macOS
+
 I recently came across a peculiar distinction between how exceptions manifest on macOS vs. iOS.
 
 On iOS, if an `NSRangeException` (index out of bounds) occurs, your app will crash, no questions asked. However, that is not always the case on macOS. This behaviour doesn't seem to be that widely known and I had to go digging quite a bit to uncover its roots.

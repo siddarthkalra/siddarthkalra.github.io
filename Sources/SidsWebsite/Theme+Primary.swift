@@ -9,13 +9,15 @@ import Publish
 import Plot
 import Foundation
 
-extension Theme {
+extension Theme where Site == SidsWebsite {
     static var primary: Self {
         Theme(htmlFactory: PrimaryHTMLFactory(), resourcePaths: ["Resources/PrimaryTheme/styles.css"])
     }
 }
 
-private struct PrimaryHTMLFactory<Site: Website>: HTMLFactory {
+private struct PrimaryHTMLFactory: HTMLFactory {
+    typealias Site = SidsWebsite
+
     func makeIndexHTML(for index: Index,
                        context: PublishingContext<Site>) throws -> HTML {
         HTML(
@@ -247,7 +249,7 @@ private struct TagCSSClassGenerator {
 
     private static func makeTagsToCSSMap<T: Website>(context: PublishingContext<T>) -> TagToCSSClassMap {
         let sortedTags = context.allTags.sorted()
-        let letters: [String] = ["a", "b", "c", "d", "e", "f"]
+        let letters: [String] = ["a", "b", "c", "d", "e", "f", "g"]
 
         guard sortedTags.count == letters.count else {
             fatalError("Too many tags (\(sortedTags.count)), vs. CSS classes (\(letters.count)). Add more CSS classes")

@@ -72,10 +72,15 @@ nav li a.selected {
 
 h1 {
     margin-bottom: 20px;
-    font-size: 2em;
+    font-size: 2.5em;
 }
 
 h2 {
+    margin: 20px 0;
+    font-size: 1.75em;
+}
+
+h3 {
     margin: 20px 0;
 }
 
@@ -145,6 +150,10 @@ a {
     background-color: #c53e33;
 }
 
+.tag-g {
+    background-color: #EC7018;
+}
+
 .tag-list li,
 .tag {
     display: inline-block;
@@ -175,6 +184,19 @@ a {
     width: 100%;
 }
 
+.content > ul {
+    font-size: 1.05em;
+    line-height: 1.25em;
+}
+
+.content ul {
+    padding-left: 20px;
+}
+
+.content ul li {
+    margin-top: 10px;
+}
+
 .browse-all {
     display: block;
     margin-bottom: 30px;
@@ -194,6 +216,12 @@ footer {
 
 code {
     font-family: Code, monospace;
+}
+
+article p, .content p {
+    margin-top: 20px;
+    font-size: 1.05em;
+    line-height: 1.25;
 }
 
 article p code,article li code,.discover .content code {
