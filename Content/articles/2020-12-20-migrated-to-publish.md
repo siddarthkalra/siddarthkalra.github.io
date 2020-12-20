@@ -66,7 +66,7 @@ There's two ways you can go here. We can get all fancy (pun intended) and use a 
 ```swift
 // a default pipeline that generates your fancy site and deploys it to GitHub Pages
 try FancyNewSite().publish(withTheme: .fancyTheme,
-                          deployedUsing: .gitHub("fancyNewSite/fancynewsite.github.io", useSSH: true)])
+                          deployedUsing: .gitHub("fancyNewSite/fancynewsite.github.io", useSSH: true))
 ```
 
 ### 4. Run locally then deploy
