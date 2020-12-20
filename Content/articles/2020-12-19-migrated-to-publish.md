@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Migrating to Publish
+title: Migrated to Publish
 date: 2020-12-19 10:45
-description: TBD
-tags: sundell publish, swift
+description: Documenting learnings and future enhancements after migrating this website to Publish
+tags: static site generator, swift
 ---
 
-# Migrating to Publish
+# Migrated to Publish
 
 Today, I'm so glad to share that this website has been migrated to John Sundell's static site generator called [Publish](https://github.com/JohnSundell/Publish)! 🎉
 
