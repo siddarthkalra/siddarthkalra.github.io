@@ -8,7 +8,7 @@ tags: article, static site generator, swift
 
 # Migrated to Publish
 
-Today, I'm so glad to share that this website has been migrated to [Publish](https://github.com/JohnSundell/Publish), a static site generator by John Sundell! 🎉 
+Today, I'm so glad to share that this website has been migrated to [Publish](https://github.com/JohnSundell/Publish), a static site generator by John Sundell written in Swift! 🎉 
 
 I love working in [Swift](https://swift.org/) so this was a no-brainer for me and for many others it seems. This website is hosted on [GitHub Pages](https://pages.github.com/) and previously you were almost forced to adopt something like [Jekyll](https://jekyllrb.com/), a static site generator written in Ruby. Well, those days are over! I want to take this opportunity to document some learnings and future enhancements.
 
