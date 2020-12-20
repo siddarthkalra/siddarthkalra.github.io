@@ -6,6 +6,8 @@ description: I love Swift KeyPaths as they allow us to work in a type-safe envir
 tags: article, swift, key paths
 ---
 
+# A collection of key paths, same root type but different values
+
 I love Swift [`KeyPaths`](https://developer.apple.com/documentation/swift/keypath) as they allow us to work in a type-safe environment. But I ran into a problem the other day when using them for a feature I was implementing.
 
 I wanted the ability to create an array of `KeyPaths` where the `Root` was the same type but the `Value` types were different. The first thing I tried was this:

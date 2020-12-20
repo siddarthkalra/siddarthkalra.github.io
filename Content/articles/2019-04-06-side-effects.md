@@ -6,6 +6,8 @@ description: Side effects can have deadly consequences. We all pay attention to 
 tags: article, swift, functions
 ---
 
+# Side effects
+
 Side effects can have deadly consequences. We all pay attention to them when picking up a pack of antibiotics from the pharmacist. But are you paying attention to them when writing your next app feature? If you haven't been, I'm here to convince you that it's worth reading the fine-print and avoiding them whenever possible.
 
 ![Side Effects meme](/images/side-effects.jpg)
