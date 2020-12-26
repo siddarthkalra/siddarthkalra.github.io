@@ -51,8 +51,14 @@ try SidsWebsite().publish(using: [
 
 extension PublishingStep {
     static func move404FileForGitHubPages() -> Self {
-        step(named: "Move 404 file for GitHub Pages") { context in
-            guard let orig404Page = context.pages["404"] else { return }
+        let stepName = "Move 404 file for GitHub Pages"
+
+        return step(named: stepName) { context in
+            guard let orig404Page = context.pages["404"] else {
+                throw PublishingError(stepName: stepName,
+                                      infoMessage: "Unable to find 404 page")
+            }
+
             let orig404FilePath: Path = "\(outputFolder)/\(orig404Page.path)/index.html"
 
             let orig404File = try context.file(at: orig404FilePath)
