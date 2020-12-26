@@ -2,7 +2,7 @@
 layout: post
 title: Migrated to Publish
 date: 2020-12-20 00:00
-description: Documenting learnings and future enhancements after migrating this website to Publish
+description: Documenting learnings and future enhancements after migrating this website to Publish, a static site generator by John Sundell written in Swift!
 tags: article, static site generator, swift
 ---
 
