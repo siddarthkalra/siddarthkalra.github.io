@@ -2,6 +2,7 @@ import Foundation
 import Publish
 import Plot
 import SplashPublishPlugin
+import Files
 
 // This type acts as the configuration for your website.
 struct SidsWebsite: Website {
@@ -23,6 +24,43 @@ struct SidsWebsite: Website {
     var imagePath: Path? { nil }
 }
 
-try SidsWebsite().publish(withTheme: .primary,
-                          deployedUsing: .gitHub("siddarthkalra/siddarthkalra.github.io", useSSH: true),
-                          plugins: [.splash(withClassPrefix: "splash-")])
+private let plugins: [Plugin<SidsWebsite>] = [.splash(withClassPrefix: "splash-")]
+private let rssFeedConfig: RSSFeedConfiguration = .default
+private let theme: Theme<SidsWebsite> = .primary
+private let indentation: Indentation.Kind? = nil
+private let deploymentMethod: DeploymentMethod<SidsWebsite> = .gitHub("siddarthkalra/siddarthkalra.github.io", useSSH: true)
+private let rssFeedSections: Set<SidsWebsite.SectionID> = Set(SidsWebsite.SectionID.allCases)
+private let outputFolder: String = "Output"
+
+try SidsWebsite().publish(using: [
+    .group(plugins.map(PublishingStep.installPlugin)),
+    .optional(.copyResources()),
+    .addMarkdownFiles(),
+    .sortItems(by: \.date, order: .descending),
+    .generateHTML(withTheme: theme, indentation: indentation),
+    .move404FileForGitHubPages(),
+    .unwrap(rssFeedConfig) { config in
+        .generateRSSFeed(
+            including: rssFeedSections,
+            config: config
+        )
+    },
+    .generateSiteMap(indentedBy: indentation),
+    .unwrap(deploymentMethod, PublishingStep.deploy)
+])
+
+extension PublishingStep {
+    static func move404FileForGitHubPages() -> Self {
+        step(named: "Move 404 file for GitHub Pages") { context in
+            guard let orig404Page = context.pages["404"] else { return }
+            let orig404FilePath: Path = "\(outputFolder)/\(orig404Page.path)/index.html"
+
+            let orig404File = try context.file(at: orig404FilePath)
+            try orig404File.rename(to: "404")
+            try context.copyFileToOutput(from: "\(outputFolder)/\(orig404Page.path)/404.html")
+
+            let orig404Folder = orig404File.parent
+            try orig404Folder?.delete()
+        }
+    }
+}
