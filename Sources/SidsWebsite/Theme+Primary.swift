@@ -251,15 +251,18 @@ private struct TagCSSClassGenerator {
         let sortedTags = context.allTags.sorted()
         let letters: [String] = ["a", "b", "c", "d", "e", "f", "g"]
 
-        guard sortedTags.count == letters.count else {
-            fatalError("Too many tags (\(sortedTags.count)), vs. CSS classes (\(letters.count)). Add more CSS classes")
-        }
-
         var map: [Tag: String] = [:]
-        for (i, tag) in sortedTags.enumerated() {
-            let letter = letters[i]
+        var letterIdx = 0
+        for tag in sortedTags {
+            if letterIdx == letters.count {
+                letterIdx = 0
+            }
+
+            let letter = letters[letterIdx]
             let baseTagCSSClass: String = "tag"
             map[tag] = "\(baseTagCSSClass) tag-\(letter)"
+
+            letterIdx += 1
         }
 
         return map
