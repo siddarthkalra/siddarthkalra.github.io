@@ -197,7 +197,7 @@ private extension Node where Context == HTML.BodyContext {
     }
 
     static func tagList<T: Website>(for item: Item<T>, context: PublishingContext<T>) -> Node {
-        .ul(.class("tag-list"), .forEach(item.tags) { tag in
+        .ul(.class("tag-list"), .forEach(item.tags.sorted()) { tag in
             .li(.class(TagCSSClassGenerator.cssClassForTag(tag, context: context)),
                 .a(
                     .href(context.site.path(for: tag)),
