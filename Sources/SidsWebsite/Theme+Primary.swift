@@ -197,7 +197,7 @@ private extension Node where Context == HTML.BodyContext {
     }
 
     static func tagList<T: Website>(for item: Item<T>, context: PublishingContext<T>) -> Node {
-        .ul(.class("tag-list"), .forEach(item.tags) { tag in
+        .ul(.class("tag-list"), .forEach(item.tags.sorted()) { tag in
             .li(.class(TagCSSClassGenerator.cssClassForTag(tag, context: context)),
                 .a(
                     .href(context.site.path(for: tag)),
@@ -251,15 +251,18 @@ private struct TagCSSClassGenerator {
         let sortedTags = context.allTags.sorted()
         let letters: [String] = ["a", "b", "c", "d", "e", "f", "g"]
 
-        guard sortedTags.count == letters.count else {
-            fatalError("Too many tags (\(sortedTags.count)), vs. CSS classes (\(letters.count)). Add more CSS classes")
-        }
-
         var map: [Tag: String] = [:]
-        for (i, tag) in sortedTags.enumerated() {
-            let letter = letters[i]
+        var letterIdx = 0
+        for tag in sortedTags {
+            if letterIdx == letters.count {
+                letterIdx = 0
+            }
+
+            let letter = letters[letterIdx]
             let baseTagCSSClass: String = "tag"
             map[tag] = "\(baseTagCSSClass) tag-\(letter)"
+
+            letterIdx += 1
         }
 
         return map
