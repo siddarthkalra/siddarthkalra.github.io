@@ -2,6 +2,8 @@ import Foundation
 import Publish
 import Plot
 import SplashPublishPlugin
+import MinifyCSSPublishPlugin
+import Files
 
 // This type acts as the configuration for your website.
 struct SidsWebsite: Website {
@@ -34,6 +36,8 @@ private let outputFolder: String = "Output"
 try SidsWebsite().publish(using: [
     .group(plugins.map(PublishingStep.installPlugin)),
     .optional(.copyResources()),
+    .installPlugin(.minifyCSS(in: "primaryTheme")),
+    .combineCSS(in: "primaryTheme"),
     .addMarkdownFiles(),
     .sortItems(by: \.date, order: .descending),
     .generateHTML(withTheme: theme, indentation: indentation),
@@ -49,6 +53,25 @@ try SidsWebsite().publish(using: [
 ])
 
 extension PublishingStep {
+    static func combineCSS(in cssFolderPath: Path) -> Self {
+        step(named: "Combine CSS Files in '\(cssFolderPath)'") { context in
+            let cssFolder = try context.outputFolder(at: cssFolderPath)
+            let combinedCSSFile = try context.createOutputFile(at: cssFolderPath.appendingComponent("styles.min.css"))
+
+            let existingCSSFiles = cssFolder.files.recursive.filter { file in
+                file.path != combinedCSSFile.path && file.extension == "css"
+            }
+
+            try existingCSSFiles.forEach { file in
+                try combinedCSSFile.append(file.read())
+            }
+
+            try existingCSSFiles.forEach { file in
+                try file.delete()
+            }
+        }
+    }
+
     static func move404FileForGitHubPages() -> Self {
         let stepName = "Move 404 file for GitHub Pages"
 

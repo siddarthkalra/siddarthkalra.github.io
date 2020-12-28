@@ -12,12 +12,13 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "Publish", url: "https://github.com/johnsundell/publish.git", from: "0.6.0"),
-        .package(name: "SplashPublishPlugin", url: "https://github.com/johnsundell/splashpublishplugin", from: "0.1.0")
+        .package(name: "SplashPublishPlugin", url: "https://github.com/johnsundell/splashpublishplugin", from: "0.1.0"),
+        .package(name: "MinifyCSSPublishPlugin", url: "https://github.com/labradon/minifycsspublishplugin", from: "0.1.0")
     ],
     targets: [
         .target(
             name: "SidsWebsite",
-            dependencies: ["Publish", "SplashPublishPlugin"]
+            dependencies: ["Publish", "SplashPublishPlugin", "MinifyCSSPublishPlugin"]
         )
     ]
 )

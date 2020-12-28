@@ -1,0 +1,131 @@
+code {
+    font-family: Code, monospace;
+}
+
+article p, .content p {
+    margin-top: 20px;
+    font-size: 1.05em;
+    line-height: 1.25;
+}
+
+article p code,article li code,.discover .content code {
+    background-color: #171717;
+    display:inline-block;
+    border-radius:8px;
+    font-size:.9em;
+    line-break:anywhere;
+    margin:1px;
+    padding:0 5px;
+}
+
+article p code.inline,article li code.inline {
+    display:inline;
+    background-color:inherit;
+    padding:0;
+}
+
+pre {
+    margin-top:20px;
+}
+
+pre code {
+    display: block;
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    color: #a9bcbc;
+    line-height: 1.4em;
+    font-size: .95em;
+    overflow-x: auto;
+    white-space: pre;
+    -webkit-overflow-scrolling:touch;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+}
+
+pre code .splash-keyword {
+    color:#e83b8e;
+}
+
+pre code .splash-type {
+    color:#8281ca;
+}
+
+pre code .splash-call {
+    color:#348fe5;
+}
+
+pre code .splash-property {
+    color:#21ab9d;
+}
+
+pre code .splash-number {
+    color:#db6f57;
+}
+
+pre code .splash-string {
+    color:#fa641e;
+}
+
+pre code .splash-comment {
+    color:#6b8a94;
+}
+
+pre code .splash-dotAccess {
+    color:#92b300;
+}
+
+pre code .splash-preprocessing {
+    color:#b68a00;
+}
+
+pre code .splash-highlight {
+    display:inline-block;
+    border:1px solid #546AFF;
+    border-radius:5px;
+    background-color:#1A1721;
+    margin-left:-5px;
+    padding:0 4px 1px;
+}
+
+pre code .splash-highlight.shifted {
+    margin-left:0;
+}
+
+.splash-code-preview {
+    position:relative;
+    z-index:1;
+}
+
+.splash-code-preview a {
+    display:block;
+    font-family:Code;
+    font-size:.8em;
+    position:absolute;
+    top:30px;
+    right:10px;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:#ddd;
+    border-radius:5px;
+    background:#000;
+    cursor:default;
+    padding:2px 5px;
+}
+
+.splash-code-preview img {
+    display:none;
+    position:absolute;
+    top:5px;
+    right:0;
+    max-width:212px;
+    border:1px solid #0a0a0a;
+    border-radius:10px;
+}
+
+.splash-code-preview a:hover img {
+    display:block;
+}
+
+pre code .splash-highlight-block {
+    padding-bottom:0;
+}
