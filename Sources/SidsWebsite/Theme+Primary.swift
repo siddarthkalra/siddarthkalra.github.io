@@ -9,6 +9,8 @@ import Publish
 import Plot
 import Foundation
 
+private let stylesheetPaths: [Path] = ["/primaryTheme/styles.min.css"]
+
 extension Theme where Site == SidsWebsite {
     static var primary: Self {
         Theme(htmlFactory: PrimaryHTMLFactory(), resourcePaths: [])
@@ -22,7 +24,7 @@ private struct PrimaryHTMLFactory: HTMLFactory {
                        context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
-            .head(for: index, on: context.site),
+            .head(for: index, on: context.site, stylesheetPaths: stylesheetPaths),
             .body(
                 .header(for: context, selectedSection: nil),
                 .wrapper(
@@ -43,7 +45,7 @@ private struct PrimaryHTMLFactory: HTMLFactory {
                          context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
-            .head(for: section, on: context.site),
+            .head(for: section, on: context.site, stylesheetPaths: stylesheetPaths),
             .body(
                 .header(for: context, selectedSection: section.id),
                 .wrapper(
@@ -59,7 +61,7 @@ private struct PrimaryHTMLFactory: HTMLFactory {
                       context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
-            .head(for: item, on: context.site),
+            .head(for: item, on: context.site, stylesheetPaths: stylesheetPaths),
             .body(
                 .class("item-page"),
                 .header(for: context, selectedSection: item.sectionID),
@@ -82,7 +84,7 @@ private struct PrimaryHTMLFactory: HTMLFactory {
                       context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
-            .head(for: page, on: context.site),
+            .head(for: page, on: context.site, stylesheetPaths: stylesheetPaths),
             .body(
                 .header(for: context, selectedSection: nil),
                 .wrapper(.contentBody(page.body)),
@@ -95,7 +97,7 @@ private struct PrimaryHTMLFactory: HTMLFactory {
                          context: PublishingContext<Site>) throws -> HTML? {
         HTML(
             .lang(context.site.language),
-            .head(for: page, on: context.site),
+            .head(for: page, on: context.site, stylesheetPaths: stylesheetPaths),
             .body(
                 .header(for: context, selectedSection: nil),
                 .wrapper(
@@ -122,7 +124,7 @@ private struct PrimaryHTMLFactory: HTMLFactory {
                             context: PublishingContext<Site>) throws -> HTML? {
         HTML(
             .lang(context.site.language),
-            .head(for: page, on: context.site),
+            .head(for: page, on: context.site, stylesheetPaths: stylesheetPaths),
             .body(
                 .header(for: context, selectedSection: nil),
                 .wrapper(
