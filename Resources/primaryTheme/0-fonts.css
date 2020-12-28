@@ -1,0 +1,12 @@
+/*  *  IMPORTANT: This CSS file is NOT licensed under an open source license.
+    *  Copyright An Unheralded Perspective (c) 2020 All rights reserved.
+    *  Uses the Source Code Pro font, Copyright 2010, 2012 Adobe Systems Incorporated, license: https://github.com/adobe-fonts/source-code-pro/blob/master/LICENSE.md.
+ */
+
+@font-face {
+    font-family: "Code"; src: url(/fonts/SourceCodePro-Regular.ttf);
+}
+@font-face {
+    font-family: "Code"; src: url(/fonts/SourceCodePro-Bold.ttf);
+    font-weight: bold;
+}
