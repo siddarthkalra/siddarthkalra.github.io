@@ -11,7 +11,7 @@ import Foundation
 
 extension Theme where Site == SidsWebsite {
     static var primary: Self {
-        Theme(htmlFactory: PrimaryHTMLFactory(), resourcePaths: ["Resources/primaryTheme/styles.css"])
+        Theme(htmlFactory: PrimaryHTMLFactory(), resourcePaths: [])
     }
 }
 
