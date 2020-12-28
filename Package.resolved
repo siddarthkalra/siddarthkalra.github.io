@@ -29,6 +29,15 @@
         }
       },
       {
+        "package": "MinifyCSSPublishPlugin",
+        "repositoryURL": "https://github.com/labradon/minifycsspublishplugin",
+        "state": {
+          "branch": null,
+          "revision": "131aee39b27e7d369193ae7f1834bfbc1d63fdad",
+          "version": "0.1.0"
+        }
+      },
+      {
         "package": "Plot",
         "repositoryURL": "https://github.com/johnsundell/plot.git",
         "state": {
