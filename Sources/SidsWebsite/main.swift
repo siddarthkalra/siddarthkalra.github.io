@@ -31,7 +31,6 @@ private let theme: Theme<SidsWebsite> = .primary
 private let indentation: Indentation.Kind? = nil
 private let deploymentMethod: DeploymentMethod<SidsWebsite> = .gitHub("siddarthkalra/siddarthkalra.github.io", useSSH: true)
 private let rssFeedSections: Set<SidsWebsite.SectionID> = Set(SidsWebsite.SectionID.allCases)
-private let outputFolder: String = "Output"
 
 try SidsWebsite().publish(using: [
     .group(plugins.map(PublishingStep.installPlugin)),
@@ -81,14 +80,20 @@ extension PublishingStep {
                                       infoMessage: "Unable to find 404 page")
             }
 
-            let orig404FilePath: Path = "\(outputFolder)/\(orig404Page.path)/index.html"
-
-            let orig404File = try context.file(at: orig404FilePath)
+            let orig404File = try context.outputFile(at: "\(orig404Page.path)/index.html")
             try orig404File.rename(to: "404")
-            try context.copyFileToOutput(from: "\(outputFolder)/\(orig404Page.path)/404.html")
 
-            let orig404Folder = orig404File.parent
-            try orig404Folder?.delete()
+            guard
+                let orig404Folder = orig404File.parent,
+                let outputFolder = orig404Folder.parent,
+                let rootFolder = outputFolder.parent
+            else {
+                throw PublishingError(stepName: stepName,
+                                      infoMessage: "Unable find root, output and 404 folders")
+            }
+
+            try context.copyFileToOutput(from: "\(orig404File.path(relativeTo: rootFolder))")
+            try orig404Folder.delete()
         }
     }
 }
