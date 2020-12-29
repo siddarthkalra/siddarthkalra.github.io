@@ -1,8 +1,6 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="og:site_name" content="An Unheralded Perspective"/><link rel="canonical" href="https://siddarthkalra.github.io/articles/github-pages-custom-404-using-sundell-publish"/><meta name="twitter:url" content="https://siddarthkalra.github.io/articles/github-pages-custom-404-using-sundell-publish"/><meta name="og:url" content="https://siddarthkalra.github.io/articles/github-pages-custom-404-using-sundell-publish"/><title>Custom 404 page for GitHub Pages | An Unheralded Perspective</title><meta name="twitter:title" content="Custom 404 page for GitHub Pages | An Unheralded Perspective"/><meta name="og:title" content="Custom 404 page for GitHub Pages | An Unheralded Perspective"/><meta name="description" content="Easily add a custom 404 page when using John Sundell's Publish + GitHub Pages by using a custom publishing step."/><meta name="twitter:description" content="Easily add a custom 404 page when using John Sundell's Publish + GitHub Pages by using a custom publishing step."/><meta name="og:description" content="Easily add a custom 404 page when using John Sundell's Publish + GitHub Pages by using a custom publishing step."/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/primaryTheme/styles.min.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to An Unheralded Perspective"/></head><body class="item-page"><header><div class="wrapper"><a class="site-name" href="/">An Unheralded Perspective</a><nav><ul><li><a class="selected" href="/articles">Articles</a></li><li><a href="/about">About</a></li></ul></nav></div></header><div class="wrapper"><article><div class="content"><p>In a my <a href="/articles/2020-12-20-migrated-to-publish/">previous article</a> about migrating this website to John Sundell's <a href="https://github.com/JohnSundell/Publish">Publish framework</a>, I mentioned that one of the issues I faced was around how a custom 404 page produced by Publish does not work for websites hosted by <a href="https://pages.github.com/">Github Pages</a>.</p><p>A page called 404.md will be placed under the following URL when using the <code>.foldersAndIndexFiles</code> case of the <code>HTMLFileMode</code> enum defined in Publish:</p><pre><code class="language-no-highlight">siddarthkalra.github.io/404/index.html
 </code></pre><p>However, GitHub Pages expects:</p><pre><code class="language-no-highlight">siddarthkalra.github.io/404.html
-</code></pre><p>Now, one way to fix this problem would be to simply switch the file mode to <code>.standAloneFiles</code> , which I could have done. However, I didn't want to change the file hierarchy for my entire website just for this one case.</p><p>I fixed my problem by adding a new publishing step that renames 404/index.html to 404/404.html, moves 404.html to the root folder and deletes the now empty 404 folder. Here's the code:</p><pre><code><span class="splash-keyword">private let</span> outputFolder: <span class="splash-type">String</span> = <span class="splash-string">"Output"</span>
-
-<span class="splash-keyword">extension</span> <span class="splash-type">PublishingStep</span> {
+</code></pre><p>Now, one way to fix this problem would be to simply switch the file mode to <code>.standAloneFiles</code> , which I could have done. However, I didn't want to change the file hierarchy for my entire website just for this one case.</p><p>I fixed my problem by adding a new publishing step that renames 404/index.html to 404/404.html, copies 404.html to the output folder and deletes the 404 folder. Here's the code:</p><pre><code><span class="splash-keyword">extension</span> <span class="splash-type">PublishingStep</span> {
     <span class="splash-keyword">static func</span> move404FileForGitHubPages() -&gt; <span class="splash-type">Self</span> {
         <span class="splash-keyword">let</span> stepName = <span class="splash-string">"Move 404 file for GitHub Pages"</span>
 
@@ -12,14 +10,20 @@
                                       infoMessage: <span class="splash-string">"Unable to find 404 page"</span>)
             }
 
-            <span class="splash-keyword">let</span> orig404FilePath: <span class="splash-type">Path</span> = <span class="splash-string">"</span>\(outputFolder)<span class="splash-string">/</span>\(orig404Page.<span class="splash-property">path</span>)<span class="splash-string">/index.html"</span>
-
-            <span class="splash-keyword">let</span> orig404File = <span class="splash-keyword">try</span> context.<span class="splash-call">file</span>(at: orig404FilePath)
+            <span class="splash-keyword">let</span> orig404File = <span class="splash-keyword">try</span> context.<span class="splash-call">outputFile</span>(at: <span class="splash-string">"</span>\(orig404Page.<span class="splash-property">path</span>)<span class="splash-string">/index.html"</span>)
             <span class="splash-keyword">try</span> orig404File.<span class="splash-call">rename</span>(to: <span class="splash-string">"404"</span>)
-            <span class="splash-keyword">try</span> context.<span class="splash-call">copyFileToOutput</span>(from: <span class="splash-string">"</span>\(outputFolder)<span class="splash-string">/</span>\(orig404Page.<span class="splash-property">path</span>)<span class="splash-string">/404.html"</span>)
 
-            <span class="splash-keyword">let</span> orig404Folder = orig404File.<span class="splash-property">parent</span>
-            <span class="splash-keyword">try</span> orig404Folder?.<span class="splash-call">delete</span>()
+            <span class="splash-keyword">guard
+                let</span> orig404Folder = orig404File.<span class="splash-property">parent</span>,
+                <span class="splash-keyword">let</span> outputFolder = orig404Folder.<span class="splash-property">parent</span>,
+                <span class="splash-keyword">let</span> rootFolder = outputFolder.<span class="splash-property">parent</span>
+            <span class="splash-keyword">else</span> {
+                <span class="splash-keyword">throw</span> <span class="splash-type">PublishingError</span>(stepName: stepName,
+                                      infoMessage: <span class="splash-string">"Unable find root, output and 404 folders"</span>)
+            }
+
+            <span class="splash-keyword">try</span> context.<span class="splash-call">copyFileToOutput</span>(from: <span class="splash-string">"</span>\(orig404File.<span class="splash-call">path</span>(relativeTo: rootFolder))<span class="splash-string">"</span>)
+            <span class="splash-keyword">try</span> orig404Folder.<span class="splash-call">delete</span>()
         }
     }
 }
