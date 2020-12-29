@@ -22,11 +22,9 @@ siddarthkalra.github.io/404.html
 
 Now, one way to fix this problem would be to simply switch the file mode to `.standAloneFiles` , which I could have done. However, I didn't want to change the file hierarchy for my entire website just for this one case.
 
-I fixed my problem by adding a new publishing step that renames 404/index.html to 404/404.html, moves 404.html to the root folder and deletes the now empty 404 folder. Here's the code:
+I fixed my problem by adding a new publishing step that renames 404/index.html to 404/404.html, copies 404.html to the output folder and deletes the 404 folder. Here's the code:
 
 ```swift
-private let outputFolder: String = "Output"
-
 extension PublishingStep {
     static func move404FileForGitHubPages() -> Self {
         let stepName = "Move 404 file for GitHub Pages"
@@ -37,14 +35,20 @@ extension PublishingStep {
                                       infoMessage: "Unable to find 404 page")
             }
 
-            let orig404FilePath: Path = "\(outputFolder)/\(orig404Page.path)/index.html"
-
-            let orig404File = try context.file(at: orig404FilePath)
+            let orig404File = try context.outputFile(at: "\(orig404Page.path)/index.html")
             try orig404File.rename(to: "404")
-            try context.copyFileToOutput(from: "\(outputFolder)/\(orig404Page.path)/404.html")
 
-            let orig404Folder = orig404File.parent
-            try orig404Folder?.delete()
+            guard
+                let orig404Folder = orig404File.parent,
+                let outputFolder = orig404Folder.parent,
+                let rootFolder = outputFolder.parent
+            else {
+                throw PublishingError(stepName: stepName,
+                                      infoMessage: "Unable find root, output and 404 folders")
+            }
+
+            try context.copyFileToOutput(from: "\(orig404File.path(relativeTo: rootFolder))")
+            try orig404Folder.delete()
         }
     }
 }
