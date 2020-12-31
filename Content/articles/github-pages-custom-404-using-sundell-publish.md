@@ -6,6 +6,8 @@ description: Easily add a custom 404 page when using John Sundell's Publish + Gi
 tags: article, static site generator, swift, quick tip
 ---
 
+# Custom 404 Page for GitHub Pages
+
 In a my [previous article](/articles/2020-12-20-migrated-to-publish/) about migrating this website to John Sundell's [Publish framework](https://github.com/JohnSundell/Publish), I mentioned that one of the issues I faced was around how a custom 404 page produced by Publish does not work for websites hosted by [Github Pages](https://pages.github.com/).
 
 A page called 404.md will be placed under the following URL when using the `.foldersAndIndexFiles` case of the `HTMLFileMode` enum defined in Publish:
