@@ -22,6 +22,7 @@ struct SidsWebsite: Website {
     var description = "My thoughts on Swift, iOS development and beyond"
     var language: Language { .english }
     var imagePath: Path? { nil }
+    var favicon: Favicon? { .init() }
 }
 
 private let plugins: [Plugin<SidsWebsite>] = [.splash(withClassPrefix: "splash-")]
