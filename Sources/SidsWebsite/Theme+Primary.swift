@@ -26,7 +26,7 @@ private struct PrimaryHTMLFactory: HTMLFactory {
             .lang(context.site.language),
             .head(for: index, on: context.site, stylesheetPaths: stylesheetPaths),
             .body(
-                .header(for: context, selectedSection: nil),
+                .header(for: context, selectedPath: nil),
                 .wrapper(
                     .itemList(
                         for: context.allItems(
@@ -47,7 +47,7 @@ private struct PrimaryHTMLFactory: HTMLFactory {
             .lang(context.site.language),
             .head(for: section, on: context.site, stylesheetPaths: stylesheetPaths),
             .body(
-                .header(for: context, selectedSection: section.id),
+                .header(for: context, selectedPath: section.path),
                 .wrapper(
                     .h1(.text(section.title)),
                     .itemList(for: section.items, context: context)
@@ -64,7 +64,7 @@ private struct PrimaryHTMLFactory: HTMLFactory {
             .head(for: item, on: context.site, stylesheetPaths: stylesheetPaths),
             .body(
                 .class("item-page"),
-                .header(for: context, selectedSection: item.sectionID),
+                .header(for: context, selectedPath: item.path),
                 .wrapper(
                     .article(
                         .div(
@@ -86,7 +86,7 @@ private struct PrimaryHTMLFactory: HTMLFactory {
             .lang(context.site.language),
             .head(for: page, on: context.site, stylesheetPaths: stylesheetPaths),
             .body(
-                .header(for: context, selectedSection: nil),
+                .header(for: context, selectedPath: page.path),
                 .wrapper(.contentBody(page.body)),
                 .footer(for: context.site)
             )
@@ -99,7 +99,7 @@ private struct PrimaryHTMLFactory: HTMLFactory {
             .lang(context.site.language),
             .head(for: page, on: context.site, stylesheetPaths: stylesheetPaths),
             .body(
-                .header(for: context, selectedSection: nil),
+                .header(for: context, selectedPath: page.path),
                 .wrapper(
                     .h1("Browse all tags"),
                     .ul(
@@ -126,7 +126,7 @@ private struct PrimaryHTMLFactory: HTMLFactory {
             .lang(context.site.language),
             .head(for: page, on: context.site, stylesheetPaths: stylesheetPaths),
             .body(
-                .header(for: context, selectedSection: nil),
+                .header(for: context, selectedPath: page.path),
                 .wrapper(
                     .h1(
                         "Tagged with ",
@@ -159,20 +159,20 @@ private extension Node where Context == HTML.BodyContext {
 
     static func header<T: Website>(
         for context: PublishingContext<T>,
-        selectedSection: T.SectionID?
+        selectedPath: Path?
     ) -> Node {
-        let sectionIDs = T.SectionID.allCases
+        let allPaths = context.allPaths.filter { $0.0 != "404" }
 
         return .header(
             .wrapper(
                 .a(.class("site-name"), .href("/"), .text(context.site.name)),
-                .if(sectionIDs.count > 1,
+                .if(allPaths.count > 1,
                     .nav(
-                        .ul(.forEach(sectionIDs) { section in
+                        .ul(.forEach(allPaths) { path, title in
                             .li(.a(
-                                .class(section == selectedSection ? "selected" : ""),
-                                .href(context.sections[section].path),
-                                .text(context.sections[section].title)
+                                .class(path == selectedPath ? "selected" : ""),
+                                .href(path),
+                                .text(title)
                             ))
                         })
                     )
@@ -238,6 +238,20 @@ private extension Node where Context == HTML.BodyContext {
         )
     }
 }
+
+private extension PublishingContext {
+    typealias PathTitle = String
+    var allPaths: [(Path, PathTitle)] {
+        let allSections = sections.reduce(into: [Path: String]()) { result, section in
+            result[section.path] = section.title
+        }
+
+        return pages.reduce(into: allSections) { result, pages in
+            result[pages.value.path] = pages.value.title
+        }.sorted { $0.value < $1.value }
+    }
+}
+
 
 private let dateFormatter: DateFormatter = {
     let df = DateFormatter()
