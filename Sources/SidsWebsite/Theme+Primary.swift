@@ -17,6 +17,14 @@ extension Theme where Site == SidsWebsite {
     }
 }
 
+private extension Index {
+    func emptyingTitle() -> Self {
+        var mutatableIndex = self
+        mutatableIndex.title = ""
+        return mutatableIndex
+    }
+}
+
 private struct PrimaryHTMLFactory: HTMLFactory {
     typealias Site = SidsWebsite
 
@@ -24,7 +32,8 @@ private struct PrimaryHTMLFactory: HTMLFactory {
                        context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
-            .head(for: index, on: context.site, stylesheetPaths: stylesheetPaths),
+            // empty Index.title so that only the website's name is shown as the tab's title
+            .head(for: index.emptyingTitle(), on: context.site, stylesheetPaths: stylesheetPaths),
             .body(
                 .header(for: context, selectedPath: nil),
                 .wrapper(
