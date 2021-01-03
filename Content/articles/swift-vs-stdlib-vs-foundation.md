@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  What are the differences between Swift, the standard library and Foundation?
-date:   2021-01-02 00:00
+date:   2021-01-03 00:00
 tags: article, swift, FAQ
 ---
 
