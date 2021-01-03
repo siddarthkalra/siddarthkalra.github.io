@@ -274,7 +274,7 @@ private struct TagCSSClassGenerator {
 
     private static func makeTagsToCSSMap<T: Website>(context: PublishingContext<T>) -> TagToCSSClassMap {
         let sortedTags = context.allTags.sorted()
-        let letters: [String] = ["a", "b", "c", "d", "e", "f", "g"]
+        let letters: [String] = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
         var map: [Tag: String] = [:]
         var letterIdx = 0

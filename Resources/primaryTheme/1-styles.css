@@ -130,15 +130,19 @@ a {
 }
 
 .tag-e {
-    background-color: #489587;
+    background-color: #EC7018;
 }
 
 .tag-f {
-    background-color: #c53e33;
+    background-color: #EE7977;
 }
 
 .tag-g {
-    background-color: #EC7018;
+    background-color: #489587;
+}
+
+.tag-h {
+    background-color: #c53e33;
 }
 
 .tag-list li,
@@ -192,6 +196,7 @@ a {
 .all-tags li {
     font-size: 1.4em;
     margin-right: 10px;
+    margin-bottom: 20px;
     padding: 6px 10px;
 }
 
