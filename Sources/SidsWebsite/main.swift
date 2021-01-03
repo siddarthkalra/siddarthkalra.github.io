@@ -21,7 +21,7 @@ struct SidsWebsite: Website {
     var name = "An Unheralded Perspective"
     var description = "My thoughts on Swift, iOS development and beyond"
     var language: Language { .english }
-    var imagePath: Path? { nil }
+    var imagePath: Path? { "/images/social.png" }
     var favicon: Favicon? { .init() }
 }
 
