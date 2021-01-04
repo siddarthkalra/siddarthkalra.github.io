@@ -248,60 +248,8 @@ private extension Node where Context == HTML.BodyContext {
     }
 }
 
-private extension PublishingContext {
-    typealias PathTitle = String
-    var allPaths: [(Path, PathTitle)] {
-        let allSections = sections.reduce(into: [Path: String]()) { result, section in
-            result[section.path] = section.title
-        }
-
-        return pages.reduce(into: allSections) { result, pages in
-            result[pages.value.path] = pages.value.title
-        }.sorted { $0.value < $1.value }
-    }
-}
-
-
 private let dateFormatter: DateFormatter = {
     let df = DateFormatter()
     df.dateStyle = .medium
     return df
 }()
-
-private struct TagCSSClassGenerator {
-    private typealias TagToCSSClassMap = [Tag: String]
-    private static var tagsToCSSMap: TagToCSSClassMap = [:]
-
-    private static func makeTagsToCSSMap<T: Website>(context: PublishingContext<T>) -> TagToCSSClassMap {
-        let sortedTags = context.allTags.sorted()
-        let letters: [String] = ["a", "b", "c", "d", "e", "f", "g", "h"]
-
-        var map: [Tag: String] = [:]
-        var letterIdx = 0
-        for tag in sortedTags {
-            if letterIdx == letters.count {
-                letterIdx = 0
-            }
-
-            let letter = letters[letterIdx]
-            let baseTagCSSClass: String = "tag"
-            map[tag] = "\(baseTagCSSClass) tag-\(letter)"
-
-            letterIdx += 1
-        }
-
-        return map
-    }
-
-    static func cssClassForTag<T: Website>(_ tag: Tag, context: PublishingContext<T>) -> String {
-        if tagsToCSSMap.isEmpty {
-            tagsToCSSMap = makeTagsToCSSMap(context: context)
-        }
-
-        guard let cssClass = tagsToCSSMap[tag] else {
-            fatalError("Unable to get CSS class for tag: \(tag)")
-        }
-
-        return cssClass
-    }
-}
